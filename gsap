@@ -1,0 +1,18 @@
+                applyScrollTrigger() {
+                    gsap.to(".circle-container-gjgyjjuytui", {
+                        rotate: 360 * 3, // Full rotations while scrolling
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: ".circle-container-gjgyjjuytui",
+                            start: "top center",
+                            end: "bottom+=3000 center",
+                            scrub: 1,
+                            pin: true, // Keeps the carousel fixed during the scroll
+                            // markers: true, // Uncomment for debugging
+                        }
+                    });
+                },
+            };
+
+            smallCarousel.init();
+            applyScrollTrigger()

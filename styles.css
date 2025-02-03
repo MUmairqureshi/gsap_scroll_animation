@@ -1,0 +1,226 @@
+
+/* General Styles */
+body {
+  background: rgb(247, 247, 249);
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.circle-container-gjgyjjuytui {
+  position: relative;
+  width: 15em;
+  height: 40em !important;
+  margin: 4em auto;
+  /* border: 1px solid #323a45; */
+  border-radius: 50%;
+  margin-left: 200px !important;
+}
+
+.circle-container-gjgyjjuytui .item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 14em;
+  height: 4em;
+  /* background: #323a45; */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 1.5s cubic-bezier(0.310, 1.470, 0.475, 1.005);
+}
+
+.circle-container-gjgyjjuytui .item a {
+  color: white;
+  font-size: 0.8em;
+  font-weight: 600;
+}
+
+.circle-container-gjgyjjuytui .item a.active {
+  /* background: rgb(230, 40, 43); */
+  transform: scale(1.1);
+}
+
+/* Numbered List Styles */
+.number {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 2em 0;
+}
+
+.number li a {
+  background: #323a45;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 5px;
+  transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.number li a.active {
+  background: rgb(230, 40, 43);
+  transform: scale(5) !important;
+}
+
+
+
+/* General Styles */
+body {
+  background: rgb(247, 247, 249);
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.circle-container-gjgyjjuytui {
+  position: relative;
+  width: 15em;
+  height: 15em;
+  margin: 4em auto;
+  /* border: 1px solid #323a45; */
+  border-radius: 50%;
+  top: calc(50% - 90px) !important;
+}
+
+.circle-container-gjgyjjuytui .item {
+
+  /*   
+  width: 400px; */
+  /* height: 400px; */
+  /* animation: spin 12s linear infinite; */
+  position: absolute;
+  /* top: calc(50% - 50px)!important; */
+
+  /* top: calc(90% - 90px)!important; */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* transform: translate(-50%, -50%); */
+  width: 14em;
+  height: 4em;
+  /* background: #323a45; */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* transition: transform 1.5s cubic-bezier(0.310, 1.470, 0.475, 1.005); */
+}
+
+.circle-container-gjgyjjuytui .item a {
+  color: white;
+  font-size: 0.8em;
+  font-weight: 600;
+}
+
+
+
+/* Numbered List Styles */
+.number {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 2em 0;
+}
+
+.number li a {
+  background: #323a45;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 5px;
+  transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+/* .number li a.active {
+  background: rgb(230, 40, 43);
+  transform: scale(1.1);
+} */
+
+img {
+  max-width: 100%;
+  width: 158px!important;
+}
+
+
+
+
+.screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 75%);
+}
+
+
+
+li.active {
+
+  transform: rotate(-90deg) translate(240px) rotate(90deg) !important;
+}
+
+
+/* Adjust rotation to keep items in the upper half */
+.circle-container-gjgyjjuytui .item:nth-child(1) {
+  transform: rotate(-10deg)
+}
+
+.circle-container-gjgyjjuytui .item:nth-child(2) {
+  transform: rotate(10deg)
+}
+
+.circle-container-gjgyjjuytui .item:nth-child(3) {
+  transform: rotate(0deg)
+}
+
+.circle-container-gjgyjjuytui .item:nth-child(4) {
+  transform: rotate(0deg)
+}
+
+.circle-container-gjgyjjuytui .item:nth-child(5) {
+  transform: rotate(0deg)
+}
+
+.circle-container-gjgyjjuytui .item:nth-child(6) {
+  transform: rotate(0deg)
+}
+
+
+
+.container-gjgyjjuytui {
+  position: relative;
+  height: 400vh;
+  overflow: hidden;
+
+
+}
+
+.col{
+  position: absolute;
+  top: 85vh;
+
+}
