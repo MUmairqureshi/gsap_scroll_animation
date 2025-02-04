@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circle Carousel</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+    <script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
+    <style>
+        .circle-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .item {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            transform-style: preserve-3d;
+        }
+
+        .item img {
+            width: 88px;
+            object-fit: cover;
+        }
+
+        .text {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            position: absolute;
+            top: -50px;
+            text-align: center;
+            font-size: 100px;
+        }
+
+        .container {
+            background-color: bisque;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <div class="container-gjgyjjuytui">
+            <h1 class="text">Text</h1>
+            <div class="col">
+                <ul class="circle-container-gjgyjjuytui">
+                    <li class="item"><a href="#" data-bgColor="#000" data-title="Hoode">
+                            <img src="/img.png" alt="hoode"></a></li>
+                    <li class="item"><a href="#" data-bgColor="#fff" data-title="T-Shirt" class="active">
+                            <img src="/img1.png" alt="shirt"></a></li>
+                    <li class="item"><a href="#" data-bgColor="#f00" data-title="aaaaaa">
+                            <img src="/img3.png" alt="pant"></a></li>
+                    <li class="item"><a href="#" data-bgColor="#323" data-title="bbbbbb">
+                            <img src="/img.png" alt="shirt"></a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="pin-windmill-wrap">
+        <div id="pin-windmill">
+            <svg id="pin-windmill-svg" width="100" height="100">
+                <!-- Your SVG Content Here -->
+            </svg>
+        </div>
+    </section>
+
+    <script>
+        jQuery(document).ready(function () {
+            gsap.registerPlugin(ScrollTrigger);
+
+            const smallCarousel = {
+                settings: {
+                    $container: jQuery('.circle-container-gjgyjjuytui'),
+                    $items: jQuery('.circle-container-gjgyjjuytui .item'),
+                    totalItems: jQuery('.circle-container-gjgyjjuytui .item').length,
+                },
+
+                init() {
+                    this.applyScrollTrigger();
+                },
+
+                applyScrollTrigger() {
+                    const { $items, totalItems } = this.settings;
+                    const angle = 360 / totalItems; // Angle per item
+                    const containerRadius = this.settings.$container.width() / 1.15;
+
+                    gsap.to($items, {
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: ".circle-container-gjgyjjuytui",
+                            start: "top center",
+                            end: `+=${totalItems * 150}px`, // Adjust scroll length
+                            scrub: 1,
+                            pin: true, // Keeps carousel fixed while scrolling
+                            onUpdate: (self) => {
+                                const index = Math.round(self.progress * (totalItems - 1));
+                                smallCarousel.rotateTo(index);
+                            }
+                        }
+                    });
+                },
+
+                rotateTo(index) {
+                    const { $items, totalItems } = this.settings;
+                    const angle = 360 / totalItems;
+                    const containerRadius = this.settings.$container.width() / 1.15;
+
+                    $items.each((i, item) => {
+                        const rotation = angle * (i - index);
+                        gsap.to(item, {
+                            duration: 0.5,
+                            ease: "power2.out",
+                            transform: `rotate(${rotation}deg) translateY(-${containerRadius}px) rotate(${-rotation}deg)`,
+                        });
+                    });
+                },
+            };
+
+            smallCarousel.init();
+        });
+
+    </script>
+</body>
+
+</html>

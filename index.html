@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -49,7 +48,6 @@
         }
     </style>
 </head>
-
 <body>
     <section>
         <div class="container-gjgyjjuytui">
@@ -57,13 +55,13 @@
             <div class="col">
                 <ul class="circle-container-gjgyjjuytui">
                     <li class="item"><a href="#" data-bgColor="#000" data-title="Hoode">
-                            <img src="/img.png" alt="hoode"></a></li>
+                        <img src="/img.png" alt="hoode"></a></li>
                     <li class="item"><a href="#" data-bgColor="#fff" data-title="T-Shirt" class="active">
-                            <img src="/img1.png" alt="shirt"></a></li>
+                        <img src="/img1.png" alt="shirt"></a></li>
                     <li class="item"><a href="#" data-bgColor="#f00" data-title="aaaaaa">
-                            <img src="/img3.png" alt="pant"></a></li>
+                        <img src="/img3.png" alt="pant"></a></li>
                     <li class="item"><a href="#" data-bgColor="#323" data-title="bbbbbb">
-                            <img src="/img.png" alt="shirt"></a></li>
+                        <img src="/img.png" alt="shirt"></a></li>
                 </ul>
             </div>
         </div>
@@ -78,61 +76,94 @@
     </section>
 
     <script>
-        jQuery(document).ready(function () {
-            gsap.registerPlugin(ScrollTrigger);
 
-            const smallCarousel = {
-                settings: {
-                    $container: jQuery('.circle-container-gjgyjjuytui'),
-                    $items: jQuery('.circle-container-gjgyjjuytui .item'),
-                    totalItems: jQuery('.circle-container-gjgyjjuytui .item').length,
-                },
+jQuery(document).ready(function () {
+    gsap.registerPlugin(ScrollTrigger);
 
-                init() {
-                    this.applyScrollTrigger();
-                },
+    const smallCarousel = {
+        settings: {
+            $container: jQuery('.circle-container-gjgyjjuytui'),
+            $items: jQuery('.circle-container-gjgyjjuytui .item'),
+            totalItems: jQuery('.circle-container-gjgyjjuytui .item').length,
+        },
 
-                applyScrollTrigger() {
-                    const { $items, totalItems } = this.settings;
-                    const angle = 360 / totalItems; // Angle per item
-                    const containerRadius = this.settings.$container.width() / 1.15;
+        init() {
+            this.positionItems(); // Position items in a circular layout
+            this.bindEvents();
+            this.applyScrollTrigger();
+        },
 
-                    gsap.to($items, {
-                        ease: "none",
-                        scrollTrigger: {
-                            trigger: ".circle-container-gjgyjjuytui",
-                            start: "top center",
-                            end: `+=${totalItems * 150}px`, // Adjust scroll length
-                            scrub: 1,
-                            pin: true, // Keeps carousel fixed while scrolling
-                            onUpdate: (self) => {
-                                const index = Math.round(self.progress * (totalItems - 1));
-                                smallCarousel.rotateTo(index);
-                            }
-                        }
-                    });
-                },
+        positionItems() {
+            const { $items, totalItems } = this.settings;
+            const angle = 360 / totalItems; // Calculate angle per item
+            const radius = 250; // Adjust the radius as needed
 
-                rotateTo(index) {
-                    const { $items, totalItems } = this.settings;
-                    const angle = 360 / totalItems;
-                    const containerRadius = this.settings.$container.width() / 1.15;
+            $items.each((i, item) => {
+                const theta = angle * i * (Math.PI / 180); // Convert angle to radians
+                const x = Math.cos(theta) * radius;
+                const y = Math.sin(theta) * radius;
 
-                    $items.each((i, item) => {
-                        const rotation = angle * (i - index);
-                        gsap.to(item, {
-                            duration: 0.5,
-                            ease: "power2.out",
-                            transform: `rotate(${rotation}deg) translateY(-${containerRadius}px) rotate(${-rotation}deg)`,
-                        });
-                    });
-                },
-            };
+                jQuery(item).css({
+                    transform: `translate(${x}px, ${y}px)`,
+                });
+            });
+        },
 
-            smallCarousel.init();
-        });
+        bindEvents() {
+            const { $items } = this.settings;
+
+            $items.each((index, item) => {
+                jQuery(item).find('a').on('click', (e) => {
+                    e.preventDefault();
+                    this.rotateTo(index);
+
+                    // Update background and text styles
+                    const bgColor = jQuery(e.currentTarget).attr('data-bgColor');
+                    const title = jQuery(e.currentTarget).attr('data-title');
+
+                    jQuery('.container-gjgyjjuytui').css('backgroundColor', bgColor);
+                    jQuery('.text').text(title);
+                });
+            });
+        },
+
+        rotateTo(index) {
+            const { $items, totalItems } = this.settings;
+            const angle = 360 / totalItems;
+            const rotation =  index; // Rotate to bring selected item to the top
+
+            gsap.to(this.settings.$container, {
+                rotate: rotation,
+                duration: 1,
+                ease: "power2.out",
+            });
+        },
+
+        applyScrollTrigger() {
+            const { totalItems } = this.settings;
+            const angle = 360 / totalItems;
+
+            gsap.to(".circle-container-gjgyjjuytui", {
+                rotate: `+=${angle * totalItems}`, // Full circle rotation
+                ease: "none",
+                scrollTrigger: {
+                    trigger: ".circle-container-gjgyjjuytui",
+                    start: "top center",
+                    end: `+=${totalItems * 150}px`,
+                    scrub: 1,
+                    pin: true,
+                }
+            });
+        },
+    };
+
+    smallCarousel.init();
+});
+
 
     </script>
 </body>
-
 </html>
+
+
+

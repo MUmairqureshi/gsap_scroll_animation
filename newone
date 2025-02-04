@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circle Carousel</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+    <script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
+    <style>
+        .circle-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .item {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            transform-style: preserve-3d;
+        }
+
+        .item img {
+            width: 88px;
+            object-fit: cover;
+        }
+
+        .text {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            position: absolute;
+            top: -50px;
+            text-align: center;
+            font-size: 100px;
+        }
+
+        .container {
+            background-color: bisque;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <div class="container-gjgyjjuytui">
+            <h1 class="text">Text</h1>
+            <div class="col">
+                <ul class="circle-container-gjgyjjuytui">
+                    <li class="item"><a href="#" data-bgColor="#000" data-title="Hoode">
+                            <img src="/img.png" alt="hoode"></a></li>
+                    <li class="item"><a href="#" data-bgColor="#fff" data-title="T-Shirt" class="active">
+                            <img src="/img1.png" alt="shirt"></a></li>
+                    <li class="item"><a href="#" data-bgColor="#f00" data-title="aaaaaa">
+                            <img src="/img3.png" alt="pant"></a></li>
+                    <li class="item"><a href="#" data-bgColor="#323" data-title="bbbbbb">
+                            <img src="/img.png" alt="shirt"></a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        jQuery(document).ready(function () {
+            const smallCarousel = {
+                settings: {
+                    $container: jQuery('.circle-container-gjgyjjuytui'),
+                    $items: jQuery('.circle-container-gjgyjjuytui .item'),
+                    currentIndex: 0,
+                    totalItems: jQuery('.circle-container-gjgyjjuytui .item').length,
+                    scrollFactor: 0.1, // Adjust rotation sensitivity
+                },
+
+                init() {
+                    this.bindEvents();
+                    this.bindScroll();
+                },
+
+                bindEvents() {
+                    const { $items } = this.settings;
+
+                    // Click event for circle items
+                    $items.each((index, item) => {
+                        jQuery(item).find('a').on('click', (e) => {
+                            e.preventDefault();
+                            this.stopAutoRotate();
+                            this.rotateTo(index);
+                        });
+                    });
+                },
+
+                bindScroll() {
+                    const { totalItems } = this.settings;
+
+                    jQuery(window).on('scroll', () => {
+                        const scrollTop = jQuery(window).scrollTop();
+                        const scrollDelta = scrollTop * this.settings.scrollFactor;
+
+                        // Calculate new index based on scroll
+                        const newIndex = Math.floor(scrollDelta / (360 / totalItems)) % totalItems;
+
+                        this.rotateTo(newIndex);
+                    });
+                },
+
+                rotateTo(index) {
+                    const { $items, totalItems } = this.settings;
+                    const angle = 360 / totalItems; // Angle between each item
+                    const containerRadius = this.settings.$container.width() / 0.75;
+
+                    $items.each((i, item) => {
+                        const rotation = angle * (i - index);
+                        jQuery(item).css({
+                            transform: `rotate(${rotation}deg) translateY(-${containerRadius}px) rotate(${-rotation}deg)`,
+                        });
+                    });
+
+                    this.updateActiveStates(index);
+                    this.settings.currentIndex = index;
+
+                    // Update background and text dynamically
+                    const activeItem = $items.eq(index).find('a');
+                    const bgColor = activeItem.attr('data-bgColor');
+                    const title = activeItem.attr('data-title');
+
+                    jQuery('.container-gjgyjjuytui').css('backgroundColor', bgColor);
+                    jQuery('.text').text(title);
+                },
+
+                updateActiveStates(index) {
+                    const { $items } = this.settings;
+                    $items.removeClass('active').eq(index).addClass('active');
+                },
+
+                stopAutoRotate() {
+                    clearInterval(this.autoRotateInterval);
+                },
+            };
+
+            smallCarousel.init();
+        });
+    </script>
+</body>
+
+</html>
