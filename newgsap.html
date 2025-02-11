@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSAP 3D Scroll Animation</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        /* General Reset */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #101010;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .sliderSection3D {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10rem 0;
+        }
+
+        .gallery_box {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform-style: preserve-3d;
+        }
+
+        .gallery_box_outer {
+            width: 300px;
+            height: 500px;
+            position: relative;
+            transform: perspective(2000px);
+            transform-style: preserve-3d;
+        }
+
+        .gallery_box_in {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background-position: center center;
+            background-size: cover;
+        }
+
+        .gallery_box_in img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 3D Rotation Setup */
+        .gallery_box_in:nth-child(1) { transform: rotateY(0deg) translateZ(300px); }
+        .gallery_box_in:nth-child(2) { transform: rotateY(60deg) translateZ(300px); }
+        .gallery_box_in:nth-child(3) { transform: rotateY(120deg) translateZ(300px); }
+        .gallery_box_in:nth-child(4) { transform: rotateY(180deg) translateZ(300px); }
+        .gallery_box_in:nth-child(5) { transform: rotateY(240deg) translateZ(300px); }
+        .gallery_box_in:nth-child(6) { transform: rotateY(300deg) translateZ(300px); }
+
+        /* Headings */
+        .headingSection {
+            text-align: center;
+            margin-top: 5rem;
+        }
+
+        .headBox {
+            margin-bottom: 3rem;
+        }
+
+        .headBox h3 {
+            font-size: 2rem;
+        }
+
+        .headBox a {
+            display: inline-block;
+            text-transform: uppercase;
+            background-color: white;
+            color: black;
+            padding: 10px 30px;
+            border-radius: 50px;
+            font-size: 14px;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .headBox a:hover {
+            background: linear-gradient(#f45719, #f43719);
+            color: white;
+        }
+
+        @media (max-width: 1400px) {
+            .gallery_box_outer {
+                width: 250px;
+                height: 450px;
+            }
+
+            .gallery_box_in:nth-child(1) { transform: rotateY(0deg) translateZ(250px); }
+            .gallery_box_in:nth-child(2) { transform: rotateY(60deg) translateZ(250px); }
+            .gallery_box_in:nth-child(3) { transform: rotateY(120deg) translateZ(250px); }
+            .gallery_box_in:nth-child(4) { transform: rotateY(180deg) translateZ(250px); }
+            .gallery_box_in:nth-child(5) { transform: rotateY(240deg) translateZ(250px); }
+            .gallery_box_in:nth-child(6) { transform: rotateY(300deg) translateZ(250px); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sliderSection3D">
+        <section class="work2">
+            <div class="gallery_box">
+                <div class="gallery_box_outer">
+                    <div class="gallery_box_in"><img src="img.png" alt="Image 1" /></div>
+                    <div class="gallery_box_in"><img src="img1.png'" alt="Image 2" /></div>
+                    <div class="gallery_box_in"><img src="img3.png" alt="Image 3" /></div>
+                    <div class="gallery_box_in"><img src="img.png" alt="Image 4" /></div>
+                    <div class="gallery_box_in"><img src="img1.png" alt="Image 5" /></div>
+                    <div class="gallery_box_in"><img src="img3.png" alt="Image 6" /></div>
+                </div>
+            </div>
+        </section>
+
+        <div class="headingSection">
+            <div class="headBox"><h3>Explicabo</h3><p><a href="#">View Case</a></p></div>
+            <div class="headBox"><h3>Neque Quasi Nulla Accusantium</h3><p><a href="#">View Case</a></p></div>
+            <div class="headBox"><h3>Error</h3><p><a href="#">View Case</a></p></div>
+            <div class="headBox"><h3>Molestiae Est</h3><p><a href="#">View Case</a></p></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            const boxOuter = document.querySelector('.gallery_box_outer');
+
+            // Create GSAP Scroll Animation
+            gsap.timeline({
+                scrollTrigger: {
+                    trigger: boxOuter,
+                    start: "top 70%",
+                    end: "bottom 20%",
+                    scrub: true,
+                    pin: false,
+                    pinSpacing: false,
+                }
+            })
+            .to('.gallery_box_outer', {
+                duration: 5,
+                rotateY: 360,
+                ease: "power1.inOut",
+            });
+
+            // Individual Image Animation
+            gsap.utils.toArray(".gallery_box_in").forEach((item) => {
+                gsap.fromTo(item, 
+                    { opacity: 0, scale: 0.9 }, 
+                    { 
+                        opacity: 1, 
+                        scale: 1, 
+                        duration: 0.8, 
+                        ease: "power2.out", 
+                        scrollTrigger: {
+                            trigger: item,
+                            start: "top 90%",
+                            toggleActions: "play none none reverse"
+                        }
+                    }
+                );
+            });
+
+        });
+    </script>
+
+</body>
+</html>
